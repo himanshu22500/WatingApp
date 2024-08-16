@@ -1,0 +1,17 @@
+<div class="container">
+  <h1>Some internal server error</h1>
+  @if(error){
+    <h4>Error: {{error.message}}</h4>
+    <p>Check the server for error</p>
+    <p>What do to next</p>
+    <ol>
+      <li>Open Chrome dev tools and check the failing network request in the network tab</li>
+      <li>Examine the URL of the failing request</li>
+      <li>Reproduce the error in postman</li>
+    </ol>
+    <p class="fw-bold">Following is the stack trace</p>
+    <code class="mt-5">
+      {{error.details}}
+    </code>
+  }
+</div>
