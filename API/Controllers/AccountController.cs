@@ -12,7 +12,7 @@ namespace API.Controllers;
 public class AccountController(DataContext context, ITokenService tokenService) : BaseApiController
 {
     [HttpPost("register")]
-    public async Task<ActionResult<AppUser>> Register(RegisterDto registerDto)
+    public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
         if (await UserExists(registerDto.Username)) return BadRequest("Username is taken");
         using var hmac = new HMACSHA512();
@@ -26,7 +26,11 @@ public class AccountController(DataContext context, ITokenService tokenService) 
         context.Users.Add(user);
         await context.SaveChangesAsync();
 
-        return user;
+        return new UserDto
+        {
+            Username = user.UserName,
+            Token = tokenService.CreateToken(user)
+        };
     }
 
     [HttpPost("login")]
